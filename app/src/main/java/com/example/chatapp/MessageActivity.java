@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -42,6 +43,7 @@ public class MessageActivity extends AppCompatActivity {
     private String friendEmail;
     private EditText mMessage;
     private ImageView mSend;
+    private ImageView mImage;
     private RecyclerView mRecyclerView;
 
     @Override
@@ -51,6 +53,8 @@ public class MessageActivity extends AppCompatActivity {
 
         mMessage = findViewById(R.id.message);
         progress = findViewById(R.id.progress);
+        mImage = findViewById(R.id.image);
+
         mMessages = new ArrayList<>();
         mSend = findViewById(R.id.send);
         mRecyclerView = findViewById(R.id.recycle_view);
@@ -64,6 +68,18 @@ public class MessageActivity extends AppCompatActivity {
 
         readMessages();
         onSendClick();
+        onImageClick();
+    }
+
+    private void onImageClick() {
+        mImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MessageActivity.this,ShowImageActivity.class);
+                intent.putExtra("friendEmail",friendEmail);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -118,6 +134,7 @@ public class MessageActivity extends AppCompatActivity {
                     map.put("to",friendEmail);
                     map.put("from",mAuth.getCurrentUser().getEmail());
                     map.put("seconds",i);
+                    map.put("imageUrl","default");
                    // map.put("id",message.get)
                     ref.push().setValue(map);
 

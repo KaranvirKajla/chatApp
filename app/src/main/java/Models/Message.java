@@ -9,6 +9,7 @@ public class Message {
     String to;
     String from;
     String id;
+    String imageUrl;
 
     public long getSeconds() {
         return seconds;
@@ -21,13 +22,22 @@ public class Message {
     public Message() {
     }
 
-    public Message(String message, String date, String to, String from,String id,long seconds) {
+    public Message(String message, String date, String to, String from,String id,long seconds,String imageUrl) {
         this.message = message;
         this.date = date;
         this.to = to;
         this.from = from;
         this.id = id;
         this.seconds = seconds;
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getId() {

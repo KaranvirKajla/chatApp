@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import com.example.chatapp.MessageActivity;
 import com.example.chatapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -47,6 +49,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String myEmail = currentUser.getEmail();
+        if(!message.getImageUrl().equals("default")){
+            Picasso.get().load(message.getImageUrl()).placeholder(R.mipmap.ic_launcher).into(holder.image);
+        }else{
+
+           // holder.image.setVisibility(View.GONE);
+            holder.image.setImageDrawable(null);
+        }
         holder.message.setText(message.getMessage());
         holder.date.setText(message.getDate());
         Log.d("adapterMessage","myEmail = "+myEmail);
@@ -75,11 +84,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         public TextView message;
         public TextView date;
         public CardView cardView;
+        public ImageView image;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             message = itemView.findViewById(R.id.message);
             date  = itemView.findViewById(R.id.date);
             cardView = itemView.findViewById(R.id.card);
+            image  = itemView.findViewById(R.id.imageMessage);
         }
     }
 }
