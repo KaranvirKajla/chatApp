@@ -85,6 +85,7 @@ public class MessageActivity extends AppCompatActivity {
                 }
                 Log.d("ActivityMessage","messagecoung" + mMessages.size());
                 messageAdapter.notifyDataSetChanged();
+                mRecyclerView.scrollToPosition(mMessages.size()-1);
             }
 
             @Override
@@ -120,6 +121,9 @@ public class MessageActivity extends AppCompatActivity {
                    // map.put("id",message.get)
                     ref.push().setValue(map);
 
+
+                    mRecyclerView.scrollToPosition(mMessages.size()-1);
+                    mMessage.setText("");
                 }
             }
         });

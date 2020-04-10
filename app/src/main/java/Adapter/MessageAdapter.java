@@ -2,9 +2,11 @@ package Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.chatapp.MessageActivity;
@@ -47,9 +49,19 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         String myEmail = currentUser.getEmail();
         holder.message.setText(message.getMessage());
         holder.date.setText(message.getDate());
-
+        Log.d("adapterMessage","myEmail = "+myEmail);
         if(message.getFrom().equals(myEmail)){
+            Log.d("adapterMessage",message.getFrom() + " "+message.getMessage());
             holder.cardView.setBackgroundColor(Color.GREEN);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            holder.cardView.setLayoutParams(params);
+        }else{
+            holder.cardView.setBackgroundColor(Color.WHITE);
+
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            holder.cardView.setLayoutParams(params);
         }
 
     }

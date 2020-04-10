@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                mFriends.clear();
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     final String email = snapshot.getValue(String.class);
                     Log.d("friendmain","email   "+email);

@@ -58,7 +58,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
                 FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
 
                 mRef.child(currentUser.getUid()).child("Friends").push().setValue(user.getEmail());
-
+                holder.add.setVisibility(View.GONE);
 
             }
         });

@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -63,7 +64,7 @@ public class ProfilePicActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String url = dataSnapshot.getValue().toString();
                 Picasso.get().load(url).placeholder(R.mipmap.ic_launcher).into(imageView);
-                Toast.makeText(ProfilePicActivity.this,"Profile Pic successfully updated",Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -95,11 +96,15 @@ public class ProfilePicActivity extends AppCompatActivity {
     }
 
     private void onSaveButtonClick() {
+        final ProgressDialog pd = new ProgressDialog(ProfilePicActivity.this);
+        pd.setMessage("Saving...");
+        pd.show();
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FirebaseUser currentUser = mAuth.getCurrentUser();
                 if(imageUri!=null){
-                    final StorageReference filePath = FirebaseStorage.getInstance().getReference("Profile").child(System.currentTimeMillis()+"."+getFileExtension(imageUri));
+                    final StorageReference filePath = FirebaseStorage.getInstance().getReference("Profile").child(currentUser.getUid());
                     StorageTask uploadTask = filePath.putFile(imageUri);
                     uploadTask.continueWithTask(new Continuation() {
                         @Override
@@ -117,10 +122,13 @@ public class ProfilePicActivity extends AppCompatActivity {
                             HashMap<String,Object> map = new HashMap<>();
                             map.put("imageUrl",imageUrl);
                             ref.updateChildren(map);
+                            pd.dismiss();
+                            Toast.makeText(ProfilePicActivity.this,"Profile Pic successfully updated",Toast.LENGTH_SHORT).show();
                         }
                     });
 
                 }else{
+                    pd.dismiss();
                     Toast.makeText(ProfilePicActivity.this,"Try again",Toast.LENGTH_LONG).show();
                 }
             }
